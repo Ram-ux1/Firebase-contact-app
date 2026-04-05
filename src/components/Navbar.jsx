@@ -2,7 +2,7 @@ import React from "react";
 import firebase from "../assets/logos_firebase.svg";
 import { Search } from "lucide-react";
 import { CirclePlus } from "lucide-react";
-const Navbar = ({openModel,open}) => {
+const Navbar = ({openModel,open,isUpdate,setIsUpdate }) => {
   return (
     <div className="p-5 flex flex-col gap-4">
       <div className="bg-[#ffffff] h-15 rounded-xl flex justify-center items-center gap-3 p-2 ">
@@ -20,7 +20,12 @@ const Navbar = ({openModel,open}) => {
         </div>
 
         <div className=" flex justify-end cursor-pointer">
-          <CirclePlus onClick={openModel} className=" h-8 w-8 text-amber-50 rounded-full   " />
+          <CirclePlus onClick={()=>{
+            console.log("isUpdate:",isUpdate)
+            setIsUpdate(false)
+            openModel()
+            
+          }} className=" h-8 w-8 text-amber-50 rounded-full   " />
         </div>
       </div>
     </div>

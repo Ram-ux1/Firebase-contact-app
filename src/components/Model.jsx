@@ -1,12 +1,12 @@
 import { X } from "lucide-react";
 import React from "react";
+import AddDeleteContact from "./AddDeleteContact";
 
-const Model = ({ isOpen, closeModel }) => {
+const Model = ({ isOpen, closeModel, children, isUpdate }) => {
   return (
     <>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex justify-center items-center">
-          
           {/* Backdrop */}
           <div className="absolute inset-0 backdrop-blur-sm bg-black/30 z-40"></div>
 
@@ -15,8 +15,8 @@ const Model = ({ isOpen, closeModel }) => {
             <div className="flex justify-end">
               <X onClick={closeModel} className="cursor-pointer" />
             </div>
+            {children}
           </div>
-
         </div>
       )}
     </>

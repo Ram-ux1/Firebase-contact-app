@@ -7,23 +7,17 @@ import { db } from "./config/firbase";
 import ContactCard from "./components/contactCard";
 import Model from "./components/Model";
 import { Heading2 } from "lucide-react";
+import AddDeleteContact from "./components/AddDeleteContact";
+import useDisclouse from "./hooks/useDisclouse";
 const App = () => {
   const [contact, setContacts] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
+ 
   const [loading, setLoading] = useState(true);
   const [interet, setInternet] = useState(true);
+  const {isOpen,openModel,closeModel,isUpdate,setIsUpdate,selectedContact,setSelectedContact} = useDisclouse()
 
 
-  function openModel() {
-    setIsOpen(true);
-    console.log(isOpen);
-    console.log("openModel Clicked");
-  }
-  function closeModel(){
-    setIsOpen(false)
-    console.log("model closed")
-  }
-
+  
 
   useEffect(() => {
     const getContacts = async () => {
@@ -52,13 +46,14 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    console.log(contact);
+    console.log("contact is:" , contact);
     console.log("hello ");
   }, [contact]);
+    
 
   return (
     <div className="max-w-92.5 mx-auto  ">
-      <Navbar openModel={openModel} />
+      <Navbar openModel={openModel} isUpdate={isUpdate} setIsUpdate={setIsUpdate}/>
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-4">
           {loading ? (
@@ -70,11 +65,11 @@ const App = () => {
           ) : contact.length === 0 ? (
             <div className="text-center text-white">No Contacts Found</div>
           ) : (
-            contact.map((item) => <ContactCard key={item.id} item={item} />)
+            contact.map((item) => <ContactCard key={item.id} item={item} openModel={openModel} closeModel={closeModel} isOpen={isOpen} setIsUpdate={setIsUpdate} isUpdate={isUpdate} setSelectedContact={setSelectedContact} />)
           )}
         </div>
       </div>
-      <Model openModel={openModel} closeModel = {closeModel} isOpen={isOpen} />
+      <AddDeleteContact openModel={openModel} closeModel = {closeModel} isOpen={isOpen} isUpdate={isUpdate} contact={contact} selectedContact={selectedContact}/>
     </div>
   );
 };
