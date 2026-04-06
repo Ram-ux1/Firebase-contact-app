@@ -1,7 +1,7 @@
 import React from "react";
 import Model from "./Model";
 import { Form, Formik, Field } from "formik";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../config/firbase";
 
 const AddDeleteContact = ({
@@ -20,7 +20,17 @@ const AddDeleteContact = ({
       console.log(error);
     }
   };
-  console.log("selectContact", selectedContact);
+
+  // update contact functionality
+    const updateContact = async (contact,id) => {
+    try {
+      const contactRef = doc(db, "firbase-contact",id);
+      await updateDoc(contactRef, contact);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log("selectContact", selectedContact?.name);
 
   return (
     <>
@@ -35,8 +45,8 @@ const AddDeleteContact = ({
           initialValues={
             isUpdate
               ? {
-                  name: contact?.name || "",
-                  email: contact?.email || "",
+                  name: selectedContact?.name || "",
+                  email: selectedContact?.email || "",
                 }
               : {
                   name: "",
@@ -45,6 +55,8 @@ const AddDeleteContact = ({
           }
           onSubmit={(values) => {
             console.log(values);
+            isUpdate ?
+            updateContact(values,selectedContact.id):
             addContact(values);
           }}
         >
