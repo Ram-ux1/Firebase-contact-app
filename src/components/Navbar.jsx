@@ -4,7 +4,7 @@ import { Search } from "lucide-react";
 import { CirclePlus } from "lucide-react";
 const Navbar = ({openModel,open,isUpdate,setIsUpdate }) => {
   return (
-    <div className="p-5 flex flex-col gap-4">
+    <div className="p-5 flex flex-col gap-4 ">
       <div className="bg-[#ffffff] h-15 rounded-xl flex justify-center items-center gap-3 p-2 ">
         <img src={firebase} alt="" />
         <h1 className="text-1xl font-bold">Firebase Contact App</h1>

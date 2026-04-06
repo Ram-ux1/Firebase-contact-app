@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { colors } from "./constants/color";
 import Navbar from "./components/Navbar";
-import { getDoc, getDocs, collection } from "firebase/firestore";
+import { ToastContainer, toast } from 'react-toastify';
+import { getDoc, getDocs, collection, onSnapshot } from "firebase/firestore";
 
 import { db } from "./config/firbase";
 import ContactCard from "./components/contactCard";
@@ -26,14 +27,21 @@ const App = () => {
         setInternet(false); // reset error
 
         const contactRef = collection(db, "firbase-contact");
-        const contactSnapshot = await getDocs(contactRef);
+       
 
-        const contactLists = contactSnapshot.docs.map((doc) => ({
+        onSnapshot(contactRef,(snapshot)=>{
+          const contactLists = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
 
         setContacts(contactLists);
+        return contactLists
+        closeModel()
+
+        })
+
+        
       } catch (error) {
         console.log(error);
         setInternet(true); // error aaya
@@ -52,7 +60,7 @@ const App = () => {
     
 
   return (
-    <div className="max-w-92.5 mx-auto  ">
+    <div className="max-w-92.5 mx-auto  h-screen flex flex-col">
       <Navbar openModel={openModel} isUpdate={isUpdate} setIsUpdate={setIsUpdate}/>
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-4">
@@ -65,11 +73,14 @@ const App = () => {
           ) : contact.length === 0 ? (
             <div className="text-center text-white">No Contacts Found</div>
           ) : (
-            contact.map((item) => <ContactCard key={item.id} item={item} openModel={openModel} closeModel={closeModel} isOpen={isOpen} setIsUpdate={setIsUpdate} isUpdate={isUpdate} setSelectedContact={setSelectedContact} />)
+            <div  className=" scrollBox flex flex-col gap-4 overflow-y-auto h-[550px]  ">
+             { contact.map((item) => <ContactCard key={item.id} item={item} openModel={openModel} closeModel={closeModel} isOpen={isOpen} setIsUpdate={setIsUpdate} isUpdate={isUpdate} setSelectedContact={setSelectedContact} />)}
+            </div>
           )}
         </div>
       </div>
       <AddDeleteContact openModel={openModel} closeModel = {closeModel} isOpen={isOpen} isUpdate={isUpdate} contact={contact} selectedContact={selectedContact}/>
+      <ToastContainer />
     </div>
   );
 };

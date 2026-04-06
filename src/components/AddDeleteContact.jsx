@@ -3,6 +3,7 @@ import Model from "./Model";
 import { Form, Formik, Field } from "formik";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../config/firbase";
+import { toast } from "react-toastify";
 
 const AddDeleteContact = ({
   openModel,
@@ -16,6 +17,7 @@ const AddDeleteContact = ({
     try {
       const contactRef = collection(db, "firbase-contact");
       await addDoc(contactRef, contact);
+       toast.success("Contact added successfully ")
     } catch (error) {
       console.log(error);
     }
@@ -26,6 +28,7 @@ const AddDeleteContact = ({
     try {
       const contactRef = doc(db, "firbase-contact",id);
       await updateDoc(contactRef, contact);
+      toast.success("Contact updated successfully ")
     } catch (error) {
       console.log(error);
     }

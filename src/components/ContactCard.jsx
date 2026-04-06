@@ -4,6 +4,7 @@ import { SquarePen } from 'lucide-react';
 import { db } from '../config/firbase';
 import { deleteDoc, doc } from 'firebase/firestore';
 import useDisclouse from '../hooks/useDisclouse';
+import { toast } from 'react-toastify';
 
 
 
@@ -14,6 +15,7 @@ const ContactCard = ({item,openModel,isOpen,setIsUpdate,isUpdate,setSelectedCont
   const deleteContact= async (id)=>{
     try { 
       await deleteDoc(doc(db,"firbase-contact",id))
+      toast.success("Contact deleted successfully ")
     } catch (error) {
       console.log(error)
     }
@@ -23,7 +25,7 @@ const ContactCard = ({item,openModel,isOpen,setIsUpdate,isUpdate,setSelectedCont
     console.log(item.id)
   }
   return (
-    <div>
+    <div >
       
           <div className="px-5">
             <div key={item.id} className="bg-[#FFEAAE] flex items-center justify-between gap-2 px-3 py-2 rounded-xl">
