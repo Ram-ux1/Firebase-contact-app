@@ -3,7 +3,7 @@ import Navbar from "./components/Navbar";
 import { ToastContainer, toast } from "react-toastify";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "./config/firbase";
-import ContactCard from "./components/contactCard";
+import ContactCard from "./components/ContactCard";
 import AddDeleteContact from "./components/AddDeleteContact";
 import useDisclouse from "./hooks/useDisclouse";
 
